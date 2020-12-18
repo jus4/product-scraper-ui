@@ -1,0 +1,30 @@
+.main-header {
+  max-width: 1024px;
+  padding: 2rem 1rem;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.main-header-image {
+  border-radius: 50%;
+}
+
+.main-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  min-height: 400px;
+
+}
+
+.sidebar {
+  &-container {
+    padding: .2rem 1rem;
+  }
+}
+
+
+.filters {
+  display: flex;
+  align-items: center;
+}
