@@ -13,6 +13,17 @@ const theme = createMuiTheme({
       main: green[500],
     },
   },
+  typography: {
+    h1: {
+      fontWeight: 800,
+      fontSize: "5rem",
+      lineHeight: 1.167,
+      letterSpacing: "-0.01562em",
+    },
+    h5: {
+      lineHeight: 1.6
+    }
+  }
 });
 
 export default theme;

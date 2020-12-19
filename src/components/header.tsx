@@ -1,14 +1,21 @@
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Link from '@material-ui/core/Link';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
         maxWidth: '1280px',
-        margin: '0 auto',
+        margin: '4rem auto',
         width: '100%',
         padding: '2rem',
     },
+    link: {
+        padding: '0 1rem',
+        display: 'inline-block',
+        fontWeight: 'bold',
+    }
   }),
 );
 
@@ -16,14 +23,19 @@ const Header = () => {
     const classes = useStyles();
     return(
       <Grid container className={classes.root} spacing={4} component="header">
-          <Grid item xs={8} >
-            <h1>Climbing shoes scraper</h1>
-            <p>
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit. Sed augue orci, lacinia eu tincidunt et eleifend nec lacus. 
-            </p>
-          </Grid>
-          <Grid item xs={4}>
-            <h2>Supported eCommerce shops</h2>
+          <Grid item xs={12} >
+            <Typography variant="h1" component="h1" gutterBottom >
+                Climbing shoes checker
+            </Typography>
+            <Typography variant="h5" component="p" gutterBottom>
+                Check your favorite climbing gear now online to check the available sizes and price. Bare in mind that the prices will vary depending on the shipping costs and possible discounts.<br/><br/>
+            </Typography>
+            <Typography variant="h5" component="h2" gutterBottom>
+                Currently supported shops:
+                <Link href="www.epictv.com" target="_blank" rel="noopener" className={classes.link}>EpicTV</Link>
+                <Link href="www.epictv.com" target="_blank" rel="noopener" className={classes.link}>Bergefreunde</Link>
+                <Link href="www.epictv.com" target="_blank" rel="noopener" className={classes.link} >Trekkinn</Link>
+            </Typography>
           </Grid>
       </Grid>
     )
