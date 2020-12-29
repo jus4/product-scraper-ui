@@ -23,7 +23,7 @@ const theme = createMuiTheme({
     h5: {
       lineHeight: 1.6
     }
-  }
+  },
 });
 
 export default theme;

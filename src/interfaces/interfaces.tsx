@@ -1,7 +1,8 @@
 export interface ShoeModel {
-  name: string,
-  id: string,
-  itemCount: number
+  name: string;
+  id: string;
+  itemCount: number;
+  manufacturer: string;
 }
   
 export interface ShoeVariation {
@@ -14,4 +15,9 @@ export interface ShoeVariation {
 export interface ProductFilters {
   shoeModel: string;
   shop: string;
+}
+
+export interface ShoeManufacturer {
+ id: string;
+ name: string; 
 }

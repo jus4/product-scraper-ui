@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { ShoeModel, ProductFilters} from '../interfaces/interfaces';
+import { Dispatch, SetStateAction, useEffect, useState, useLayoutEffect } from 'react';
+import { ShoeModel, ProductFilters, ShoeManufacturer} from '../interfaces/interfaces';
 import axios from 'axios';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -25,26 +25,45 @@ const useStyles = makeStyles((theme: Theme) =>
 
 
 interface ShoeModelProps {
-  models: ShoeModel[];
   filter: ProductFilters;
   setFilter: Dispatch<SetStateAction<ProductFilters>>;
 }
 
-const Sidebar: React.FC<ShoeModelProps> = ({models, filter, setFilter} ) => {
+const Sidebar: React.FC<ShoeModelProps> = ({filter, setFilter} ) => {
 
-    const [manufacturers, setManufacturers] = useState([]);
-    const [manufacturer, setManufacturer] = useState("unset");
+    const [manufacturers, setManufacturers] = useState<Array<ShoeManufacturer>>([]);
+    const [manufacturer, setManufacturer] = useState('unset');
+    const [scrollY, setScrollY] = useState(0);
+    const [models, setShoeModels] = useState<Array<ShoeModel>>([]);
+
+    const getModels = () => {
+      axios.get('http://localhost:9000/api/shoes/models')
+      .then( ({data}) => {
+        setShoeModels(data);
+      } )
+    }
 
     const getManufacturers = () => {
       axios.get('http://localhost:9000/api/manufacturers')
         .then( ({data}) => {
-          console.log(data)
           setManufacturers(data);
         })
     }
 
+    const handleScroll = (e : any) => {
+      setScrollY(window.scrollY);
+    }
+
+    useLayoutEffect( () => {
+      window.addEventListener('scroll', handleScroll);
+      return () => {
+        window.addEventListener('scroll', handleScroll);
+      }
+    },[])
+
     useEffect(() => {
       getManufacturers();
+      getModels();
     }, [])
 
 
@@ -56,15 +75,13 @@ const Sidebar: React.FC<ShoeModelProps> = ({models, filter, setFilter} ) => {
       )
     })
 
-    const shoeModels = models.filter( (element:any) => {
+    const shoeModels = models.filter( (element: ShoeModel) => {
       if (element.manufacturer === manufacturer) {
         return element
       } else if ( manufacturer === 'unset'){
         return element
       }
-    })
-    
-    .map( (model: any, index:number) => {
+    }).map( (model: any, index:number) => {
       return(
         <FormControlLabel key={index} value={model.id} control={<Radio />} label={model.name} />
       )
@@ -81,7 +98,8 @@ const Sidebar: React.FC<ShoeModelProps> = ({models, filter, setFilter} ) => {
     }
 
     return(
-        <>
+      <div className="sidebar-container" style={{ position: scrollY > 520 ? 'fixed' : 'relative', top:'10px'}}>
+        <h2>Filters</h2> 
        <FormControl component="fieldset" variant="outlined" className={classes.formControl}> 
         <InputLabel htmlFor="outlined-age-native-simple">Select manufacturer</InputLabel>
         <Select
@@ -109,7 +127,7 @@ const Sidebar: React.FC<ShoeModelProps> = ({models, filter, setFilter} ) => {
                 {shoeModels}
             </RadioGroup>
         </FormControl>
-        </>    
+        </div>    
     )
 }
 

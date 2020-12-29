@@ -5,7 +5,7 @@ import { createStyles, makeStyles, Theme, lighten } from '@material-ui/core/styl
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     header: {
-        backgroundColor: theme.palette.primary.light,
+        backgroundColor: lighten(theme.palette.primary.light, 0.3),
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
         overflow: 'hidden',
     },
     shoeItemPrice: {
-        backgroundColor: lighten(theme.palette.primary.light, 0.2),
+        backgroundColor: lighten(theme.palette.primary.light, 0.5),
         fontSize: '1.3rem',
         fontWeight: 'bold',
         padding: '.6rem  1rem',

@@ -2,10 +2,11 @@ import React, {useEffect, useState} from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './theme/theme';
 import ShoeProduct from './components/ShoeProduct';
-import Pagination from './components/pagination';
+import PagePagination from './components/pagination';
 import Sidebar from './components/sidebar' 
 import Header from './components/header'
-import {ShoeModel, ShoeVariation, ProductFilters} from './interfaces/interfaces'
+import Footer from './components/footer'
+import {ShoeVariation, ProductFilters} from './interfaces/interfaces'
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import './App.scss';
@@ -13,16 +14,8 @@ import './App.scss';
 function App() {
   const [shoeVariations, setShoeVariations] = useState<Array<ShoeVariation>>([]);
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   const [filters, setFilters] = useState<ProductFilters>({shoeModel: 'unset', shop: 'unset'});
-  const [shoeModels, setShoeModels] = useState<Array<ShoeModel>>([]);
-
-  const getModels = () => {
-    axios.get('http://localhost:9000/api/shoes/models')
-      .then( ({data}) => {
-        setShoeModels(data);
-        console.log(data);
-      } )
-  }
 
   const setShoeData = (page: Number) => {
     const params = {
@@ -31,13 +24,13 @@ function App() {
     }
     axios.get('http://localhost:9000/api/shoes/variations', {params})
       .then( ({data}) => {
-        setShoeVariations(data);
+        console.log(data);
+        setShoeVariations(data.shoes);
+        setTotalPages(data.totalPages);
       })
   }
 
-
   useEffect( () => {
-    getModels();
     setShoeData(page);
   }, [page, filters])
 
@@ -49,27 +42,22 @@ function App() {
       <main className="main-content">
         <Grid container>
           <Grid item xs={3} style={{padding: '.5rem 2rem'}}>
-            <div className="sidebar-container">
-              <h2>Filters</h2> 
-              <Sidebar models={shoeModels} filter={filters} setFilter={setFilters} />
-            </div>
+              <Sidebar filter={filters} setFilter={setFilters} />
           </Grid>
           <Grid item xs={9}>
             <section>
               { shoeVariations &&
                 <>
                 <ShoeProduct shoes={shoeVariations} />
-                <Pagination currentPage={page} setPage={setPage} />
+                <PagePagination currentPage={page} setPage={setPage}  totalPages={totalPages} />
                 </>
               }
             </section>
           </Grid>
         </Grid>
       </main>
-      <footer>
-        footer
-      </footer>
     </div>
+    <Footer />
   </ThemeProvider>
   );
 }

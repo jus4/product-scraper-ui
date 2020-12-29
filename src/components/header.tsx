@@ -28,7 +28,7 @@ const Header = () => {
                 Climbing shoes checker
             </Typography>
             <Typography variant="h5" component="p" gutterBottom>
-                Check your favorite climbing gear now online to check the available sizes and price. Bare in mind that the prices will vary depending on the shipping costs and possible discounts.<br/><br/>
+                Check your favorite climbing shoes now online for availaebility, sizes and price. Bare in mind that the prices will vary depending on the shipping costs and possible discounts.<br/><br/>
             </Typography>
             <Typography variant="h5" component="h2" gutterBottom>
                 Currently supported shops:

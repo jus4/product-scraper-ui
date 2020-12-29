@@ -1,21 +1,33 @@
 import React from 'react';
+import Pagination from '@material-ui/lab/Pagination';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import theme from '../theme/theme';
+
+const useStyles = makeStyles( (theme: Theme) => 
+    createStyles({
+       paginationRoot: {
+           justifyContent: 'center',
+       },
+       paginationContainer: {
+           marginTop: '2rem',
+       } 
+    })
+);
+
 
 type Props = {
     currentPage: number,
-    setPage: any // TODO fix this
+    setPage: any, // TODO fix this
+    totalPages: number
 }
 
-function Pagination( {currentPage, setPage}: Props) {
+function PagePagination( {currentPage, setPage, totalPages}: Props) {
+    const classes = useStyles()
     return(
-        <div className="pagination">
-            <button onClick={ () => setPage( currentPage <= 1 ? 1 : currentPage - 1)}>
-                Previous
-            </button>
-            <button onClick={ () => setPage( currentPage + 1)} >
-                Next
-            </button>
+        <div className={classes.paginationContainer}>
+            <Pagination count={totalPages} classes={{ ul: classes.paginationRoot}} color="primary" size="large" page={currentPage} onChange={(event: React.ChangeEvent<unknown>, value: number) => setPage(value)} />
         </div>
     )
 }
 
-export default Pagination
+export default PagePagination
