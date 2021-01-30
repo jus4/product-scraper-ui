@@ -51,7 +51,12 @@ const Sidebar: React.FC<ShoeModelProps> = ({filter, setFilter} ) => {
     }
 
     const handleScroll = (e : any) => {
-      setScrollY(window.scrollY);
+      console.log(window.innerWidth);
+      if (window.innerWidth > 1074 ) {
+        setScrollY(window.scrollY);
+      } else {
+        setScrollY(0)
+      }
     }
 
     useLayoutEffect( () => {

@@ -9,6 +9,9 @@
 .vscode/
 .eslintcache
 
+#vim
+*.swp
+
 # testing
 /coverage
 

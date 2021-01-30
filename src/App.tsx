@@ -41,10 +41,10 @@ function App() {
       <Header />
       <main className="main-content">
         <Grid container>
-          <Grid item xs={3} style={{padding: '.5rem 2rem'}}>
+          <Grid item xs={12} md={3} style={{padding: '.5rem 2rem'}}>
               <Sidebar filter={filters} setFilter={setFilters} />
           </Grid>
-          <Grid item xs={9}>
+          <Grid item xs={12} md={9}>
             <section>
               { shoeVariations &&
                 <>

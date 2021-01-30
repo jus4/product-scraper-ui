@@ -48,7 +48,12 @@ const useStyles = makeStyles((theme: Theme) =>
         justifyContent: 'center',
         margin: '.3rem',
         backgroundColor: '#FFF',
-    }
+    },
+    shoesContainer: {
+        [theme.breakpoints.down('sm')]: {
+          padding: '1rem',
+        },
+    },
   }),
 );
 
@@ -68,7 +73,7 @@ const ShoeProductItem: React.FC<ShoesProps> = ({shoes} ) => {
             )
         })
         return(
-            <Grid item xs={6}  key={index}>
+            <Grid item xs={12} sm={6} md={6}  key={index}>
                 <div className={classes.shoeItem}>
                     <header className={classes.header}>
                         <h2>{element.model}</h2>
@@ -86,7 +91,7 @@ const ShoeProductItem: React.FC<ShoesProps> = ({shoes} ) => {
         )
     })
     return(
-        <Grid container component="article" spacing={2}>
+        <Grid container component="article" spacing={2} className={classes.shoesContainer}>
             {shoesData}
         </Grid>
     )

@@ -10,6 +10,10 @@ const useStyles = makeStyles((theme: Theme) =>
         margin: '4rem auto',
         width: '100%',
         padding: '2rem',
+        [theme.breakpoints.down('sm')]: {
+          margin: '0',
+          padding: '1rem'
+        },
     },
     link: {
         padding: '0 1rem',
