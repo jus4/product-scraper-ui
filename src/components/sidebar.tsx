@@ -86,6 +86,7 @@ const Sidebar: React.FC<ShoeModelProps> = ({filter, setFilter} ) => {
       } else if ( manufacturer === 'unset'){
         return element
       }
+      return null
     }).map( (model: any, index:number) => {
       return(
         <FormControlLabel key={index} value={model.id} control={<Radio />} label={model.name} />
