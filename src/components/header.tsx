@@ -15,8 +15,12 @@ const useStyles = makeStyles((theme: Theme) =>
           padding: '1rem'
         },
     },
+    smallText: {
+      fontSize: '1.5rem',
+      color: theme.palette.primary.main
+    },
     link: {
-        padding: '0 1rem',
+        padding: '0  1rem 0 0',
         display: 'inline-block',
         fontWeight: 'bold',
     }
@@ -29,13 +33,13 @@ const Header = () => {
       <Grid container className={classes.root} spacing={4} component="header">
           <Grid item xs={12} >
             <Typography variant="h1" component="h1" gutterBottom >
-                Climbing shoes checker
-            </Typography>
-            <Typography variant="h5" component="p" gutterBottom>
-                Check your favorite climbing shoes now online for availaebility, sizes and price. Bare in mind that the prices will vary depending on the shipping costs and possible discounts.<br/><br/>
+                Climbing shoes checker <span className={classes.smallText} >beta</span>
             </Typography>
             <Typography variant="h5" component="h2" gutterBottom>
-                Currently supported shops:
+                Check your favorite climbing shoes now online for availability, sizes and price. Bare in mind that the prices will vary depending on the shipping costs and possible discounts.<br/><br/>
+            </Typography>
+            <Typography variant="h5" component="p" gutterBottom>
+                Currently supported shops: &nbsp;
                 <Link href="www.epictv.com" target="_blank" rel="noopener" className={classes.link}>EpicTV</Link>
                 <Link href="www.epictv.com" target="_blank" rel="noopener" className={classes.link}>Bergefreunde</Link>
                 <Link href="www.epictv.com" target="_blank" rel="noopener" className={classes.link} >Trekkinn</Link>

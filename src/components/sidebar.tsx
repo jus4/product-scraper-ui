@@ -1,5 +1,6 @@
-import { Dispatch, SetStateAction, useEffect, useState, useLayoutEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { ShoeModel, ProductFilters, ShoeManufacturer} from '../interfaces/interfaces';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import axios from 'axios';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -8,7 +9,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -16,6 +17,10 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: '2rem',
       minWidth: 200,
       display: 'block',
+      [theme.breakpoints.down('sm')]: {
+        display: 'inline-block',
+        marginRight: '2rem'
+      },
     },
     manuSelect: {
       minWidth: '200px',
@@ -33,38 +38,41 @@ const Sidebar: React.FC<ShoeModelProps> = ({filter, setFilter} ) => {
 
     const [manufacturers, setManufacturers] = useState<Array<ShoeManufacturer>>([]);
     const [manufacturer, setManufacturer] = useState('unset');
-    const [scrollY, setScrollY] = useState(0);
+    //const [scrollY, setScrollY] = useState(0); // TODO implement this when its done properly
     const [models, setShoeModels] = useState<Array<ShoeModel>>([]);
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.up('md'));
 
     const getModels = () => {
-      axios.get('http://localhost:9000/api/shoes/models')
+      axios.get(`${process.env.REACT_APP_API_URL}/api/shoes/models`)
       .then( ({data}) => {
         setShoeModels(data);
       } )
     }
 
     const getManufacturers = () => {
-      axios.get('http://localhost:9000/api/manufacturers')
+      axios.get(`${process.env.REACT_APP_API_URL}/api/manufacturers`)
         .then( ({data}) => {
           setManufacturers(data);
         })
     }
 
-    const handleScroll = (e : any) => {
-      console.log(window.innerWidth);
-      if (window.innerWidth > 1074 ) {
-        setScrollY(window.scrollY);
-      } else {
-        setScrollY(0)
-      }
-    }
+    // TODO Implement this when its done properly
+    //const handleScroll = (e : any) => {
+    //  console.log(window.innerWidth);
+    //  if (window.innerWidth > 1074 ) {
+    //    setScrollY(window.scrollY);
+    //  } else {
+    //    setScrollY(0)
+    //  }
+    //}
 
-    useLayoutEffect( () => {
-      window.addEventListener('scroll', handleScroll);
-      return () => {
-        window.addEventListener('scroll', handleScroll);
-      }
-    },[])
+    //useLayoutEffect( () => {
+    //  window.addEventListener('scroll', handleScroll);
+    //  return () => {
+    //    window.addEventListener('scroll', handleScroll);
+    //  }
+    //},[])
 
     useEffect(() => {
       getManufacturers();
@@ -93,6 +101,19 @@ const Sidebar: React.FC<ShoeModelProps> = ({filter, setFilter} ) => {
       )
     })
 
+    const shoeModelsOptions = models.filter( (element: ShoeModel) => {
+      if (element.manufacturer === manufacturer) {
+        return element
+      } else if ( manufacturer === 'unset'){
+        return element
+      }
+      return null
+    }).map( (model: any, index:number) => {
+      return(
+        <option key={index} value={model.id}>{model.name}</option> 
+      )
+    })
+
     const setFilterByValue = (type:  string, value: any) => {
       const updateFilter = {...filter};
       updateFilter.shoeModel = value;
@@ -104,7 +125,7 @@ const Sidebar: React.FC<ShoeModelProps> = ({filter, setFilter} ) => {
     }
 
     return(
-      <div className="sidebar-container" style={{ position: scrollY > 520 ? 'fixed' : 'relative', top:'10px'}}>
+      <div className="sidebar-container" style={{padding: '.5rem 2rem'}}>
         <h2>Filters</h2> 
        <FormControl component="fieldset" variant="outlined" className={classes.formControl}> 
         <InputLabel htmlFor="outlined-age-native-simple">Select manufacturer</InputLabel>
@@ -125,7 +146,8 @@ const Sidebar: React.FC<ShoeModelProps> = ({filter, setFilter} ) => {
           {manuList}
         </Select>
         </FormControl>
-
+        
+        {matches ?
         <FormControl component="fieldset" className={classes.formControl}>
             <FormLabel component="legend">Select shoe model</FormLabel>
             <RadioGroup aria-label="Shoe model" name="gender1" value={filter.shoeModel} onChange={event => setFilterByValue('shoeModel', event.target.value)} >
@@ -133,6 +155,26 @@ const Sidebar: React.FC<ShoeModelProps> = ({filter, setFilter} ) => {
                 {shoeModels}
             </RadioGroup>
         </FormControl>
+        : 
+        <FormControl component="fieldset" variant="outlined" className={classes.formControl}>
+          <InputLabel htmlFor="select-model-mobile">Select model</InputLabel>
+            <Select
+              className={classes.manuSelect}
+              native
+              value={filter.shoeModel}
+              onChange={event => setFilterByValue('shoeModel', event.target.value)}
+              label="Select model"
+              inputProps={{
+                name: 'Select model',
+                id: 'select-model-mobile',
+              }}
+            >
+            <option value="unset">All</option>
+            {shoeModelsOptions}
+        </Select>
+        </FormControl>
+        }
+
         </div>    
     )
 }

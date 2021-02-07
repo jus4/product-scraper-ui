@@ -17,20 +17,19 @@ function App() {
   const [totalPages, setTotalPages] = useState(0);
   const [filters, setFilters] = useState<ProductFilters>({shoeModel: 'unset', shop: 'unset'});
 
-  const setShoeData = (page: Number) => {
-    const params = {
-      page:page,
-      shoeModel: filters.shoeModel 
-    }
-    axios.get('http://localhost:9000/api/shoes/variations', {params})
-      .then( ({data}) => {
-        console.log(data);
-        setShoeVariations(data.shoes);
-        setTotalPages(data.totalPages);
-      })
-  }
 
   useEffect( () => {
+    const setShoeData = (page: Number) => {
+      const params = {
+        page:page,
+        shoeModel: filters.shoeModel 
+      }
+      axios.get(`${process.env.REACT_APP_API_URL}/api/shoes/variations`, {params})
+        .then( ({data}) => {
+          setShoeVariations(data.shoes);
+          setTotalPages(data.totalPages);
+        })
+    }
     setShoeData(page);
   }, [page, filters])
 
@@ -41,7 +40,7 @@ function App() {
       <Header />
       <main className="main-content">
         <Grid container>
-          <Grid item xs={12} md={3} style={{padding: '.5rem 2rem'}}>
+          <Grid item xs={12} md={3}  >
               <Sidebar filter={filters} setFilter={setFilters} />
           </Grid>
           <Grid item xs={12} md={9}>

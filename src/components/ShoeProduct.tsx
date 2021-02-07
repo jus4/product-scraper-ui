@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     shoeItem: {
         backgroundColor: theme.palette.grey[100],
-        margin: '.5rem 0',
+        margin: '.5rem',
         borderRadius: '8px',
         overflow: 'hidden',
     },
@@ -91,7 +91,7 @@ const ShoeProductItem: React.FC<ShoesProps> = ({shoes} ) => {
         )
     })
     return(
-        <Grid container component="article" spacing={2} className={classes.shoesContainer}>
+        <Grid container component="article" className={classes.shoesContainer}>
             {shoesData}
         </Grid>
     )
