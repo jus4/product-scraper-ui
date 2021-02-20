@@ -16,14 +16,24 @@ const useStyles = makeStyles((theme: Theme) =>
         },
     },
     smallText: {
-      fontSize: '1.5rem',
-      color: theme.palette.primary.main
+      fontSize: '1.3rem',
+      letterSpacing: '0.05rem',
+      color: '#FFF',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '60px',
+      height: '60px',
+      position: 'relative',
+      top: 0,
+      backgroundColor: theme.palette.primary.main,
+      borderRadius: '50%',
     },
     link: {
         padding: '0  1rem 0 0',
         display: 'inline-block',
         fontWeight: 'bold',
-    }
+    },
   }),
 );
 
